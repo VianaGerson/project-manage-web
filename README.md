@@ -1,73 +1,45 @@
-# React + TypeScript + Vite
+<h1 align="center">Gerenciador de Projetos</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🎯 Sobre o Projeto
 
-Currently, two official plugins are available:
+Este é um **projeto prático** desenvolvido com o objetivo principal de **demonstrar minha capacidade técnica**, **qualidade de código**, e **organização de estrutura**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O foco não é a criação de um produto final completo, mas sim fornecer uma **visão clara da profundidade técnica** e das práticas de desenvolvimento que emprego em meus projetos.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Requisitos e Funcionalidades do Front-end
 
-## Expanding the ESLint configuration
+O projeto implementa as seguintes funcionalidades essenciais para um gerenciador de tarefas simplificado:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* **Visualização Completa:** Exibir uma lista de **Projetos** (incluindo seu **progresso atual**) e uma lista de **Tarefas** (com seu respectivo **projeto vinculado** e nível de **dificuldade**).
+* **Criação de Tarefa:** Permitir que o usuário crie novas tarefas, definindo obrigatoriamente um nível de **Dificuldade** (_Baixa, Média_ ou _Alta_).
+* **Gestão de Progresso:** Marcar tarefas como **Concluídas**.
+    * O progresso do projeto vinculado deve ser **automaticamente recalculado** e atualizado na interface em tempo real.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🛠️ Tecnologias Utilizadas
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+O desenvolvimento foi construído sobre uma **stack moderna** e performática:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+* **React:** Biblioteca líder para a construção de interfaces de usuário reativas e componentizadas.
+* **Vite:** Ferramenta de build de nova geração que otimiza drasticamente a experiência de desenvolvimento:
+    * Substitui ferramentas mais antigas como o Create React App (CRA).
+    * Oferece **inicialização quase instantânea** e **Recarga Rápida (Hot Module Replacement - HMR)** superior.
+    * Utiliza o **ESBuild** para um processo de build super otimizado e ágil.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## ⚙️ Como Executar o Projeto
+
+Para colocar o projeto em funcionamento de forma rápida e isolada, foi utilizado um container Docker:
+
+1.  **Inicie o Container:**
+    ```bash
+    docker compose up -d
+    ```
+
+2.  **Acesse o Projeto:**
+    * Após o container ser iniciado, acesse a aplicação em seu navegador através da URL:
+        **[http://localhost:3000](http://localhost:3000)**
