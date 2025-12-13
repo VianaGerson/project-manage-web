@@ -6,23 +6,25 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import { Delete, Done } from "@mui/icons-material";
+import { CheckCircle, Delete, RadioButtonUnchecked } from "@mui/icons-material";
 import type { Task } from "../../types";
 
 interface TasksListProps {
   tasks: Task[];
-  onComplete: (taskId: number) => void;
+  onToggle: (taskId: number) => void;
   onDelete: (taskId: number) => void;
 }
 
-const TasksList: React.FC<TasksListProps> = ({
-  tasks,
-  onComplete,
-  onDelete,
-}) => {
-  const handleComplete = (taskId: number) => {
-    if (window.confirm("Deseja marcar esta tarefa como concluída?")) {
-      onComplete(taskId);
+const TasksList: React.FC<TasksListProps> = ({ tasks, onToggle, onDelete }) => {
+  const handleToggle = (taskId: number, is_completed: boolean) => {
+    if (
+      window.confirm(
+        !is_completed
+          ? "Deseja marcar esta tarefa como concluída?"
+          : "Deseja marcar esta tarefa como não concluída?"
+      )
+    ) {
+      onToggle(taskId);
     }
   };
 
@@ -64,24 +66,24 @@ const TasksList: React.FC<TasksListProps> = ({
                   </span>
                 }
               />
-              {!task.completed && (
-                <>
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={() => handleComplete(task.id)}
-                  >
-                    <Done fontSize="small" />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    color="error"
-                    onClick={() => handleDelete(task.id)}
-                  >
-                    <Delete fontSize="small" />
-                  </IconButton>
-                </>
-              )}
+              <IconButton
+                size="small"
+                color="success"
+                onClick={() => handleToggle(task.id, task.completed)}
+              >
+                {task.completed ? (
+                  <CheckCircle fontSize="small" />
+                ) : (
+                  <RadioButtonUnchecked fontSize="small" />
+                )}
+              </IconButton>
+              <IconButton
+                size="small"
+                color="error"
+                onClick={() => handleDelete(task.id)}
+              >
+                <Delete fontSize="small" />
+              </IconButton>
             </ListItemButton>
           </ListItem>
         ))

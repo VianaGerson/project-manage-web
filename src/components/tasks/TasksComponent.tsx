@@ -28,7 +28,7 @@ const TasksComponent: React.FC<TasksComponentProps> = ({
     setOpenModal(true);
   };
 
-  const onComplete = async (taskId: number) => {
+  const onToggle = async (taskId: number) => {
     try {
       const response = await fetch(`${API_URL}/tasks/${taskId}/toggle`, {
         method: "PATCH",
@@ -36,11 +36,11 @@ const TasksComponent: React.FC<TasksComponentProps> = ({
         body: JSON.stringify({ completed: true }),
       });
       if (!response.ok) {
-        throw new Error("Erro ao marcar tarefa como concluída.");
+        throw new Error("Erro ao marcar tarefa.");
       }
       onUpdate();
     } catch (error) {
-      alert("Não foi possível concluir a tarefa.");
+      alert("Não foi possível efetuar a operação.");
     }
   };
 
@@ -77,7 +77,7 @@ const TasksComponent: React.FC<TasksComponentProps> = ({
         </Typography>
       </Box>
       <List component="div" disablePadding sx={{ pl: 4 }}>
-        <TasksList tasks={project.tasks} onComplete={onComplete} onDelete={onDelete} />
+        <TasksList tasks={project.tasks} onToggle={onToggle} onDelete={onDelete} />
 
         <Button
           variant="outlined"
