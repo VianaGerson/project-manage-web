@@ -7,6 +7,7 @@ import ProjectsList from "./ProjectsList";
 import Button from "@mui/material/Button";
 import ProjectsForm from "./ProjectForm";
 import { Box, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,6 +16,7 @@ const ProjectsComponent: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState(false);
+  const [openProjectId, setOpenProjectId] = React.useState<number | null>(null);
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -28,8 +30,8 @@ const ProjectsComponent: React.FC = () => {
       if (!response.ok) {
         throw new Error("Falha ao buscar projetos.");
       }
-      const data: Project[] = await response.json();
-      setProjects(data);
+      const data = await response.json();
+      setProjects(data.data);
     } catch (err) {
       setError(
         err instanceof Error
@@ -48,29 +50,41 @@ const ProjectsComponent: React.FC = () => {
   return (
     <Box sx={{ spaceY: 6 }}>
       {loading && (
-        <Typography className="text-indigo-600 text-center">Carregando projetos...</Typography>
+        <Typography className="text-indigo-600 text-center">
+          Carregando projetos...
+        </Typography>
       )}
-      {error && <Typography className="text-red-500 text-center">Erro: {error}</Typography>}
+      {error && (
+        <Typography className="text-red-500 text-center">
+          Erro: {error}
+        </Typography>
+      )}
 
       {!loading && !error && projects.length === 0 && (
         <Typography className="text-gray-500 text-center">
-          Nenhum projeto encontrado. Crie um novo acima!
+          Nenhum projeto cadastrado. Clique em “Adicionar Projeto” para começar!
         </Typography>
       )}
 
       {!loading && projects.length > 0 && (
-        <ProjectsList projects={projects} onUpdate={fetchProjects}/>
+        <ProjectsList projects={projects} onUpdate={fetchProjects} setOpenProjectId={setOpenProjectId} openProjectId={openProjectId} />
       )}
 
       <Button
-        className="mb-4 px-4 py-2"
         variant="contained"
+        color="primary"
+        startIcon={<Add />}
+        className="mb-4 px-4 py-2"
         onClick={handleOpenModal}
       >
         Adicionar Projeto
       </Button>
 
-      <ProjectsForm openModal={openModal} setOpenModal={setOpenModal} onUpdate={fetchProjects} />
+      <ProjectsForm
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        onUpdate={fetchProjects}
+      />
     </Box>
   );
 };

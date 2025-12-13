@@ -2,7 +2,7 @@ import React from "react";
 import type { Project } from "../../types";
 
 import {
-  Box,
+  Avatar,
   Collapse,
   List,
   ListItemButton,
@@ -10,19 +10,24 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Folder } from "@mui/icons-material";
 import TasksComponent from "../tasks/TasksComponent";
 
 interface ProjectsListProps {
   projects: Project[];
   onUpdate: () => void;
+  openProjectId: number | null;
+  setOpenProjectId: (id: number | null) => void;
 }
 
-const ProjectsList: React.FC<ProjectsListProps> = ({ projects, onUpdate }) => {
-  const [openProjectId, setOpenProjectId] = React.useState<number | null>(null);
-
-  const handleClick = (projectId: number) => {
-    setOpenProjectId((prevId) => (prevId === projectId ? null : projectId));
+const ProjectsList: React.FC<ProjectsListProps> = ({
+  projects,
+  onUpdate,
+  openProjectId,
+  setOpenProjectId,
+}) => {
+  const handleClick = (projectId: number | null) => {
+    setOpenProjectId(projectId);
   };
 
   return (
@@ -37,28 +42,21 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ projects, onUpdate }) => {
         >
           <ListItemButton onClick={() => handleClick(project.id)}>
             <ListItemIcon>
-              {openProjectId === project.id ? <ExpandLess /> : <ExpandMore />}
+              <Avatar sx={{ bgcolor: "#6366f1" }}>
+                <Folder />
+              </Avatar>
             </ListItemIcon>
             <ListItemText primary={project.name} />
-            <Box>
-              <Box className="text-sm font-medium mb-1 flex justify-between">
-                <Typography>Progresso:</Typography>
-                <Typography>{project.progress.toFixed(2)}%</Typography>
-              </Box>
-              <Box className="w-full bg-gray-200 rounded-full h-2.5">
-                <Box
-                  className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500"
-                  style={{ width: `${project.progress}%` }}
-                ></Box>
-              </Box>
-            </Box>
+            <Typography variant="body2" color="primary" fontWeight={600}>
+              {project.progress}%
+            </Typography>
           </ListItemButton>
           <Collapse
             in={openProjectId === project.id}
             timeout="auto"
             unmountOnExit
           >
-            <TasksComponent tasks={project.tasks} projectId={project.id} onUpdate={onUpdate} />
+            <TasksComponent project={project} onUpdate={onUpdate} />
           </Collapse>
         </List>
       ))}
